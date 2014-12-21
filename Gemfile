@@ -20,6 +20,7 @@ gem 'timeline_fu', '~> 0.3.0'
 gem 'haml', '~> 3.1.8'
 
 gem 'omniauth', '~> 1.0'
+gem 'omniauth-google-apps'
 
 group :assets do
   gem 'sass-rails'    , '~> 3.2'
