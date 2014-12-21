@@ -19,6 +19,8 @@ gem 'delayed_job_active_record', '~> 0.3.3'
 gem 'timeline_fu', '~> 0.3.0'
 gem 'haml', '~> 3.1.8'
 
+gem 'omniauth', '~> 1.0'
+
 group :assets do
   gem 'sass-rails'    , '~> 3.2'
   gem 'haml-rails'    , '~> 0.3.5'
