@@ -69,6 +69,8 @@ PuppetDashboard::Application.routes do
 
   get 'radiator(.:format)' => 'radiator#index'
 
+  post '/auth/:provider/callback', :to => 'sessions#create'
+
   get ':controller(/:action(/:id(.:format)))'
 
 end
