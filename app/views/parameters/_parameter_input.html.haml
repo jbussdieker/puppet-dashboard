@@ -1,7 +1,7 @@
 - parameters = parameter_input.sort_by{|param| param[:key] || ''}
 - parameter_index = 0
 - object_name = controller.controller_name.singularize
-- form_prefix = form_prefix || "#{object_name}[parameter_attributes]"
+- form_prefix = form_prefix || "#{object_name}[parameters_attributes]"
 - entity_name = entity_name || 'parameter'
 - comparators = comparators || nil
 - colspan = comparators ? 4 : 3
@@ -48,8 +48,10 @@
         %td.value
           = text_field_tag "#{form_prefix}[][value]", param[:value], :placeholder => "value"
         %td.actions
+          = hidden_field_tag "#{form_prefix}[][id]", param[:id]
+          = hidden_field_tag "#{form_prefix}[][_destroy]"
           %a.icon.delete{:href => '#',
-            :onclick => "jQuery(this).parents('tr').remove()".html_safe}
+            :onclick => "jQuery(this).parents('tr').hide(); jQuery(this).prev('input[type=hidden]').val('1');".html_safe}
             = "Remove #{entity_name}"
 
     - # one blank row

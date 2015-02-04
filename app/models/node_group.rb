@@ -43,6 +43,13 @@ class NodeGroup < ActiveRecord::Base
 
   assigns_related :node_class, :node_group, :node
 
+  alias :original_parameters_attributes= :parameters_attributes=
+
+  def parameters_attributes=(values)
+    raise NodeClassificationDisabledError.new unless SETTINGS.use_external_node_classification
+    self.original_parameters_attributes = values
+  end
+
   def to_param
     SETTINGS.numeric_url_slugs ? id.to_s : name
   end

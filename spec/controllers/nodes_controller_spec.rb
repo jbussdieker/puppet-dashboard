@@ -353,8 +353,8 @@ describe NodesController do
         SETTINGS.stubs(:use_external_node_classification).returns(true)
       end
 
-      it "should allow specification of 'parameter_attributes'" do
-        @params[:node].merge! :parameter_attributes => [{:key => 'foo', :value => 'bar'}]
+      it "should allow specification of 'parameters_attributes'" do
+        @params[:node].merge! :parameters_attributes => [{:key => 'foo', :value => 'bar'}]
 
         do_put
 
@@ -376,8 +376,8 @@ describe NodesController do
         SETTINGS.stubs(:use_external_node_classification).returns(false)
       end
 
-      it "should fail if parameter_attributes are specified" do
-        @params[:node].merge! :parameter_attributes => [{:key => 'foo', :value => 'bar'}]
+      it "should fail if parameters_attributes are specified" do
+        @params[:node].merge! :parameters_attributes => [{:key => 'foo', :value => 'bar'}]
 
         do_put
 
@@ -414,7 +414,7 @@ describe NodesController do
         @node.node_groups.should == [node_group]
       end
 
-      it "should succeed if parameter_attributes and node classes are omitted" do
+      it "should succeed if parameters_attributes and node classes are omitted" do
         do_put
         response.code.should == '200'
         response_hash = JSON.parse(response.body)

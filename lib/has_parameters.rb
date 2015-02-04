@@ -5,28 +5,21 @@ module HasParameters
 
   module ClassMethods
     def has_parameters(options={})
-
-      include HasParameters::InstanceMethods
+      attr_accessible :parameters_attributes
 
       has_many :parameters, {:as => :parameterable, :dependent => :destroy}.merge(options) do
         def to_hash
           Hash[*all.map{|p| [p.key, p.value]}.flatten]
         end
       end
+
+      accepts_nested_attributes_for :parameters, :allow_destroy => true, :reject_if => :all_blank
+
+      include HasParameters::InstanceMethods
     end
   end
 
   module InstanceMethods
-    def parameter_attributes=(values)
-      raise NodeClassificationDisabledError.new unless SETTINGS.use_external_node_classification
-      new_parameters = values.reject{|v| v[:key].blank? && v[:value].blank?}.map do |hash|
-        parameter = parameters.find_or_initialize_by_key(hash[:key])
-        parameter.value = hash[:value]
-        parameter.save
-        parameter
-      end
-      self.parameters = new_parameters
-    end
   end
 end
 

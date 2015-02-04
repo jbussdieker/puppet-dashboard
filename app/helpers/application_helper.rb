@@ -65,9 +65,16 @@ module ApplicationHelper
     objects = [options.delete(:object)].flatten
     count   = objects.sum {|object| object.errors.count}
 
-    return '' if count.zero?
-
     header_message = "Please correct #{count > 1 ? "these #{count} errors" : 'this error'}:"
+
+    # TODO: Figure out better detection of this error so we don't blanket assign this message to other errors
+    if count.zero?
+      return content_tag(:div,
+                  content_tag(:h3, header_message) +
+                  content_tag(:ul, content_tag(:li, h("duplicate parameters"))) ,
+                  :class => 'errors element')
+    end
+
     error_messages = objects.map {|object| object.errors.full_messages.map {|msg| content_tag(:li, h(msg)) } }.join.html_safe
 
     content_tag(:div,

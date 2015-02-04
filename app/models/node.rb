@@ -14,7 +14,7 @@ class Node < ActiveRecord::Base
   # attr_readonly :name, :created_at # FIXME: these should be readonly, but inherit_resources isn't creating new instances right
   attr_accessible :name, :created_at # FIXME: ^^
   attr_accessible :environment
-  attr_accessible :description, :parameter_attributes, :assigned_node_group_ids, :assigned_node_class_ids, :node_class_ids, :node_group_ids
+  attr_accessible :description, :assigned_node_group_ids, :assigned_node_class_ids, :node_class_ids, :node_group_ids
   attr_accessible :reported_at, :last_inspect_report_id, :hidden, :updated_at, :last_apply_report_id, :status, :value, :report, :category
 
   has_many :node_class_memberships, :dependent => :destroy
@@ -75,6 +75,13 @@ class Node < ActiveRecord::Base
     scope node_status, lambda {
       responsive.where("nodes.status = ?", node_status)
     }
+  end
+
+  alias :original_parameters_attributes= :parameters_attributes=
+
+  def parameters_attributes=(values)
+    raise NodeClassificationDisabledError.new unless SETTINGS.use_external_node_classification
+    self.original_parameters_attributes = values
   end
 
   def to_param
